@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:kaasutracker/features/auth/auth_controller.dart';
+import 'package:go_router/go_router.dart';
+import 'package:kaasutracker/core/routing/app_router.dart';
+import 'package:kaasutracker/features/auth/auth_provider.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 class LoginScreen extends ConsumerStatefulWidget {
   const LoginScreen({super.key});
@@ -13,6 +16,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   final _formKey = GlobalKey<FormState>();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
+
   bool _isLoading = false;
   bool _passwordVisible = false;
 
@@ -23,43 +27,80 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     super.dispose();
   }
 
-  Future<void> _authenticate({required bool signUp}) async {
+  Future<void> _authenticate({required bool isSignUp}) async {
     if (!_formKey.currentState!.validate()) return;
 
     setState(() => _isLoading = true);
+
     try {
-      final auth = ref.read(authControllerProvider.notifier);
-      final response = signUp
-          ? await auth.signUp(
-              email: _emailController.text.trim(),
-              password: _passwordController.text,
-            )
-          : await auth.signInWithPassword(
-              email: _emailController.text.trim(),
-              password: _passwordController.text,
-            );
+      final auth = ref.read(authProvider);
+      final email = _emailController.text.trim();
+      final password = _passwordController.text;
+
+      final AuthResponse response = isSignUp
+          ? await auth.signUp(email, password)
+          : await auth.signIn(email, password);
 
       if (!mounted) return;
-      final message = signUp && response.session == null
-          ? 'Check your email to confirm your account.'
-          : signUp
-              ? 'Your account has been created.'
-              : 'Signed in successfully.';
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(message)),
-      );
-    } catch (error) {
+
+      if (isSignUp && response.session == null) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text(
+              'Account created! Please check your email to confirm your registration.',
+            ),
+          ),
+        );
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+              isSignUp
+                  ? 'Account created successfully!'
+                  : 'Signed in successfully.',
+            ),
+          ),
+        );
+        context.go(AppRoutes.dashboard);
+      }
+    } on AuthException catch (e) {
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(error.toString())),
+        SnackBar(
+          content: Text(e.message),
+          backgroundColor: Theme.of(context).colorScheme.error,
+        ),
+      );
+    } catch (e) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('An unexpected error occurred: $e'),
+          backgroundColor: Theme.of(context).colorScheme.error,
+        ),
       );
     } finally {
-      if (mounted) setState(() => _isLoading = false);
+      if (mounted) {
+        setState(() => _isLoading = false);
+      }
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    // Listen to Auth state changes for automatic navigation upon auth state update
+    ref.listen<AsyncValue<AuthState>>(
+      authStateStreamProvider,
+      (previous, next) {
+        next.whenData((authState) {
+          if (authState.event == AuthChangeEvent.signedIn ||
+              (authState.session != null && mounted)) {
+            context.go(AppRoutes.dashboard);
+          }
+        });
+      },
+    );
+
     final colorScheme = Theme.of(context).colorScheme;
 
     return Scaffold(
@@ -105,9 +146,9 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                       ),
                       validator: (value) {
                         final email = value?.trim() ?? '';
-                        if (email.isEmpty) return 'Enter your email.';
+                        if (email.isEmpty) return 'Please enter your email.';
                         if (!email.contains('@')) {
-                          return 'Enter a valid email address.';
+                          return 'Please enter a valid email address.';
                         }
                         return null;
                       },
@@ -118,7 +159,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                       obscureText: !_passwordVisible,
                       textInputAction: TextInputAction.done,
                       autofillHints: const [AutofillHints.password],
-                      onFieldSubmitted: (_) => _authenticate(signUp: false),
+                      onFieldSubmitted: (_) => _authenticate(isSignUp: false),
                       decoration: InputDecoration(
                         labelText: 'Password',
                         prefixIcon: const Icon(Icons.lock_outline),
@@ -139,7 +180,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                       ),
                       validator: (value) {
                         if (value == null || value.isEmpty) {
-                          return 'Enter your password.';
+                          return 'Please enter your password.';
                         }
                         if (value.length < 6) {
                           return 'Password must be at least 6 characters.';
@@ -151,7 +192,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                     FilledButton(
                       onPressed: _isLoading
                           ? null
-                          : () => _authenticate(signUp: false),
+                          : () => _authenticate(isSignUp: false),
                       child: _isLoading
                           ? const SizedBox.square(
                               dimension: 20,
@@ -165,7 +206,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                     OutlinedButton(
                       onPressed: _isLoading
                           ? null
-                          : () => _authenticate(signUp: true),
+                          : () => _authenticate(isSignUp: true),
                       child: const Text('Sign Up'),
                     ),
                   ],

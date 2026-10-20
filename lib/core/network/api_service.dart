@@ -15,9 +15,9 @@ class ApiService {
   final Uri _baseUrl;
 
   Future<dynamic> get(
-      String path, {
-        Map<String, dynamic>? queryParameters,
-      }) async {
+    String path, {
+    Map<String, dynamic>? queryParameters,
+  }) async {
     final response = await client.get(
       _uriFor(path, queryParameters: queryParameters),
       headers: await _headers(),
@@ -26,16 +26,41 @@ class ApiService {
   }
 
   Future<dynamic> post(
-      String path, {
-        required Object body,
-        Map<String, dynamic>? queryParameters,
-      }) async {
+    String path, {
+    required Object body,
+    Map<String, dynamic>? queryParameters,
+  }) async {
     final response = await client.post(
       _uriFor(path, queryParameters: queryParameters),
       headers: await _headers(),
       body: jsonEncode(body),
     );
     return _decodeResponse(response);
+  }
+
+  Future<dynamic> put(
+    String path, {
+    required Object body,
+    Map<String, dynamic>? queryParameters,
+  }) async {
+    final response = await client.put(
+      _uriFor(path, queryParameters: queryParameters),
+      headers: await _headers(),
+      body: jsonEncode(body),
+    );
+    return _decodeResponse(response);
+  }
+
+  /// Sends a base64 encoded receipt image to the backend `/expenses/analyze` endpoint.
+  Future<Map<String, dynamic>> analyzeReceipt(String base64Image) async {
+    final response = await post(
+      'expenses/analyze',
+      body: {'base64Image': base64Image},
+    );
+    if (response is Map<String, dynamic>) {
+      return response;
+    }
+    throw const FormatException('Invalid response format from analyze endpoint.');
   }
 
   Uri _uriFor(String path, {Map<String, dynamic>? queryParameters}) {
@@ -50,7 +75,7 @@ class ApiService {
       queryParameters: {
         ...resolvedUri.queryParameters,
         ...queryParameters.map(
-              (key, value) => MapEntry(key, value.toString()),
+          (key, value) => MapEntry(key, value.toString()),
         ),
       },
     );
