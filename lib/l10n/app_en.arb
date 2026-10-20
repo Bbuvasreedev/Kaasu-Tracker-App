@@ -1,0 +1,9 @@
+{
+  "@@locale": "en",
+  "appTitle": "KaasuTracker",
+  "splashTitle": "KaasuTracker",
+  "splashSubtitle": "Your money, made clear.",
+  "continueToDashboard": "Continue",
+  "dashboardTitle": "Your dashboard",
+  "dashboardPlaceholder": "Your finances at a glance."
+}
