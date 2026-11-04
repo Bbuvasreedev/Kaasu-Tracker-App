@@ -5,5 +5,330 @@
   "splashSubtitle": "உங்கள் பணநிலையை தெளிவாக அறியுங்கள்.",
   "continueToDashboard": "தொடரவும்",
   "dashboardTitle": "உங்கள் முகப்புப் பலகை",
-  "dashboardPlaceholder": "உங்கள் நிதிநிலையை ஒரே பார்வையில் காணுங்கள்."
+  "dashboardPlaceholder": "உங்கள் நிதிநிலையை ஒரே பார்வையில் காணுங்கள்.",
+  "additionalFundsTitle": "கூடுதல் நிதி",
+  "borrowedFundsTitle": "கடன் பெற்ற நிதி",
+  "fundsReceived": "பெறப்பட்ட மொத்தம்",
+  "fundsUsed": "செலவுகளுக்கு ஒதுக்கப்பட்டது",
+  "fundsRemaining": "கிடைக்கும் இருப்பு",
+  "addFund": "நிதியைச் சேர்க்கவும்",
+  "amountLabel": "தொகை",
+  "dateLabel": "தேதி",
+  "sourceDescriptionLabel": "மூலம்",
+  "purposeLabel": "நோக்கம்",
+  "repaymentBalanceLabel": "திருப்பிச் செலுத்த வேண்டிய இருப்பு",
+  "saveFund": "சேமிக்கவும்",
+  "updateFund": "புதுப்பிக்கவும்",
+  "deactivateFund": "செயலிழக்கச் செய்",
+  "emptyFunds": "இந்த மாதத்தில் நிதி பதிவு இல்லை.",
+  "fundSaved": "நிதி வெற்றிகரமாகச் சேமிக்கப்பட்டது.",
+  "fundDeactivated": "நிதி செயலிழக்கச் செய்யப்பட்டது.",
+  "amountRequired": "பூஜ்ஜியத்தை விட அதிகமான தொகையை உள்ளிடவும்.",
+  "sourceRequired": "நிதி மூலத்தை உள்ளிடவும்.",
+  "purposeRequired": "நோக்கத்தை உள்ளிடவும்.",
+  "fundsFormTitle": "நிதி விவரங்கள்",
+  "salarySpent": "சம்பளச் செலவு",
+  "salaryFundedExpenses": "சம்பளத்திலிருந்து ஒதுக்கப்பட்ட செலவு",
+  "remainingSalary": "இந்த மாத சம்பள இருப்பு",
+  "additionalFundsUsed": "பயன்படுத்திய கூடுதல் நிதி",
+  "additionalFundsAvailable": "கிடைக்கும் கூடுதல் நிதி",
+  "carryForwardUsed": "முன்னகர்த்திய இருப்பு பயன்பாடு",
+  "borrowedFundsUsed": "பயன்படுத்திய கடன் நிதி",
+  "actualExpenses": "உண்மையான செலவுகள்",
+  "monthlyEmiScheduled": "மாதாந்திர EMI திட்டம்",
+  "nextEmiDue": "அடுத்த EMI தேதி",
+  "emiSchedule": "EMI அட்டவணை",
+  "emiScheduled": "திட்டமிடப்பட்டது",
+  "emiDueToday": "இன்று செலுத்த வேண்டிய EMI",
+  "noScheduledEmis": "செயலில் உள்ள EMI அட்டவணைகள் இல்லை",
+  "emiPaymentNotTracked": "கட்டண நிலை கண்காணிக்கப்படவில்லை",
+  "unfundedOverspending": "நிதியில்லாத அதிகச் செலவு",
+  "summaryUnavailable": "மாதச் சுருக்கத்தை ஏற்ற முடியவில்லை.",
+  "summaryLoading": "மாதச் சுருக்கம் ஏற்றப்படுகிறது...",
+  "salarySetupRequired": "மாதச் சம்பளம் அமைக்கப்படவில்லை. நிதி மெனுவிலிருந்து அமைக்கவும்.",
+  "emptyMonth": "இந்த மாதத்தில் நிதிச் செயல்பாடு இல்லை.",
+  "establishCarryForward": "முன்னகர்த்திய இருப்பை அமை",
+  "carryForwardEstablished": "முன்னகர்த்திய இருப்பு அமைக்கப்பட்டது.",
+  "carryForwardAvailable": "முந்தைய மாதத்திலிருந்து தகுதியான இருப்பு",
+  "salaryAvailable": "இந்த மாத சம்பள இருப்பு",
+  "expenseDetailsTitle": "செலவு விவரங்கள்",
+  "expenseDetailsNotFound": "செலவைக் கண்டறிய முடியவில்லை.",
+  "expenseDetailsLoadError": "இந்தச் செலவை ஏற்ற முடியவில்லை.",
+  "deleteExpense": "செலவை நீக்கு",
+  "confirmExpenseDeleteMessage": "இந்தச் செலவை நீக்க விரும்புகிறீர்களா?",
+  "expenseDeleted": "செலவு நீக்கப்பட்டது.",
+  "expenseFundingBreakdown": "நிதி ஒதுக்கீடு",
+  "unfundedAmount": "நிதியில்லாத தொகை",
+  "manageExpenseFunding": "நிதி ஒதுக்கீட்டை நிர்வகி",
+  "allocationTitle": "செலவு நிதி ஒதுக்கீடு",
+  "expenseAmount": "செலவுத் தொகை",
+  "fundingSource": "நிதி மூலம்",
+  "sourceAvailable": "கிடைக்கும் தொகை",
+  "assignedAmount": "ஒதுக்கப்பட்டது",
+  "unallocatedAmount": "ஒதுக்கப்படாத மீதம்",
+  "saveAllocation": "மாற்றங்களைச் சேமி",
+  "allocationSaved": "செலவு நிதி புதுப்பிக்கப்பட்டது.",
+  "allocationExceedsBalance": "ஒதுக்கீடு கிடைக்கும் இருப்பை மீறுகிறது.",
+  "allocationExceedsExpense": "ஒதுக்கீட்டின் மொத்தம் செலவுத் தொகைக்குச் சமமாக இருக்க வேண்டும்.",
+  "duplicateFundingSource": "ஒரு நிதி மூலம் ஒன்றுக்கு மேற்பட்ட முறை பட்டியலிடப்பட்டுள்ளது.",
+  "allocationVerificationFailed": "கோரிய ஒதுக்கீட்டை சேவையகம் உறுதிப்படுத்தவில்லை. உங்கள் மாற்றங்கள் இந்தத் திரையில் உள்ளன.",
+  "expenseUnavailable": "இந்தச் செலவுக்கு நிதி ஒதுக்க முடியாது.",
+  "noFundingSources": "இந்த மாதத்திற்கு நிதி ஆதாரங்கள் இல்லை.",
+  "allFunds": "அனைத்து காலங்களும்",
+  "cancel": "ரத்து செய்",
+  "retry": "மீண்டும் முயற்சி",
+  "serverSessionExpired": "அமர்வு முடிந்தது. மீண்டும் உள்நுழையவும்.",
+  "serverForbidden": "இந்தச் செயலைச் செய்ய அனுமதி இல்லை.",
+  "serverNotFound": "கோரிய பதிவு கிடைக்கவில்லை.",
+  "serverFailure": "சேவை தற்காலிகமாக கிடைக்கவில்லை. மீண்டும் முயற்சிக்கவும்.",
+  "serverRequestFailure": "கோரிக்கையை நிறைவேற்ற முடியவில்லை. மீண்டும் முயற்சிக்கவும்.",
+  "fundsTitle": "நிதி ஆதாரங்கள்",
+  "today": "இன்று",
+  "baseMonthlySalary": "மாத அடிப்படைச் சம்பளம்",
+  "combinedRemaining": "மொத்த மீதமுள்ள நிதி",
+  "noNextEmi": "அடுத்த EMI திட்டமிடப்படவில்லை",
+  "setMonthlySalary": "மாதச் சம்பளத்தை அமை",
+  "salarySaved": "மாதச் சம்பளம் சேமிக்கப்பட்டது.",
+  "inactiveFundStatus": "செயலற்றது",
+  "invalidExpenseId": "செலவு அடையாளம் தவறானது.",
+  "carryForwardRemaining": "முன்னகர்த்திய இருப்பின் மீதி",
+  "salaryAllocated": "இந்த மாத சம்பளத்திலிருந்து ஒதுக்கப்பட்டது",
+  "combinedBalanceDetail": "அனைத்து நிதி ஆதாரங்களின் மொத்தம்",
+  "percentUsed": "{percent}% பயன்படுத்தப்பட்டது",
+  "@percentUsed": {
+    "placeholders": {
+      "percent": {
+        "type": "String"
+      }
+    }
+  },
+  "saving": "சேமிக்கப்படுகிறது…",
+  "navDashboard": "முகப்புப் பலகை",
+  "navAnalytics": "பகுப்பாய்வு",
+  "navProfile": "சுயவிவரம்",
+  "welcomeBack": "மீண்டும் வருக",
+  "signInPrompt": "உங்கள் நிதியை நிர்வகிக்க உள்நுழையவும் அல்லது கணக்கை உருவாக்கவும்.",
+  "emailLabel": "மின்னஞ்சல்",
+  "passwordLabel": "கடவுச்சொல்",
+  "showPassword": "கடவுச்சொல்லைக் காட்டு",
+  "hidePassword": "கடவுச்சொல்லை மறை",
+  "logIn": "உள்நுழை",
+  "signUp": "பதிவு செய்",
+  "emailRequired": "மின்னஞ்சலை உள்ளிடவும்.",
+  "emailInvalid": "சரியான மின்னஞ்சல் முகவரியை உள்ளிடவும்.",
+  "passwordRequired": "கடவுச்சொல்லை உள்ளிடவும்.",
+  "passwordMinLength": "கடவுச்சொல் குறைந்தது 6 எழுத்துகள் இருக்க வேண்டும்.",
+  "duplicateAccountPossible": "இந்த மின்னஞ்சலில் ஏற்கெனவே கணக்கு இருக்கலாம். உள்நுழைய முயற்சிக்கவும்.",
+  "emailConfirmation": "பதிவு கோரிக்கை அனுப்பப்பட்டது. கணக்கை உறுதிப்படுத்த மின்னஞ்சலைச் சரிபார்க்கவும்.",
+  "accountCreated": "கணக்கு வெற்றிகரமாக உருவாக்கப்பட்டது!",
+  "signedIn": "வெற்றிகரமாக உள்நுழைந்தீர்கள்.",
+  "authNetworkError": "அங்கீகார சேவையை அணுக முடியவில்லை. இணைய இணைப்பைச் சரிபார்த்து மீண்டும் முயற்சிக்கவும்.",
+  "tooManyAttempts": "பலமுறை முயற்சித்துள்ளீர்கள். சிறிது நேரம் கழித்து மீண்டும் முயற்சிக்கவும்.",
+  "invalidCredentials": "மின்னஞ்சல் அல்லது கடவுச்சொல் தவறானது.",
+  "emailNotConfirmed": "உள்நுழைவதற்கு முன் மின்னஞ்சல் முகவரியை உறுதிப்படுத்தவும்.",
+  "accountAlreadyExists": "இந்த மின்னஞ்சலில் கணக்கு ஏற்கெனவே உள்ளது. உள்நுழையவும்.",
+  "weakPassword": "வலுவான கடவுச்சொல்லைத் தேர்ந்தெடுத்து மீண்டும் முயற்சிக்கவும்.",
+  "accountCreationFailed": "கணக்கை உருவாக்க முடியவில்லை. மீண்டும் முயற்சிக்கவும்.",
+  "signInFailed": "உள்நுழைய முடியவில்லை. இணைய இணைப்பைச் சரிபார்த்து மீண்டும் முயற்சிக்கவும்.",
+  "pageNotFound": "பக்கம் கிடைக்கவில்லை: {path}",
+  "@pageNotFound": {
+    "placeholders": {
+      "path": {
+        "type": "String"
+      }
+    }
+  },
+  "addExpense": "செலவைச் சேர்",
+  "previousMonth": "முந்தைய மாதம்",
+  "nextMonth": "அடுத்த மாதம்",
+  "recentExpenses": "சமீபத்திய செலவுகள்",
+  "add": "சேர்",
+  "collapseRecentExpenses": "சமீபத்திய செலவுகளைச் சுருக்கு",
+  "expandRecentExpenses": "சமீபத்திய செலவுகளை விரி",
+  "collapseEmiSchedule": "EMI அட்டவணையைச் சுருக்கு",
+  "expandEmiSchedule": "EMI அட்டவணையை விரி",
+  "recentExpensesLoadError": "சமீபத்திய செலவுகளை ஏற்ற முடியவில்லை",
+  "noExpensesRecorded": "இதுவரை செலவுகள் பதிவு செய்யப்படவில்லை",
+  "startExpenseTracking": "கண்காணிப்பைத் தொடங்க + செலவைச் சேர் என்பதைத் தட்டவும்.",
+  "analyticsTitle": "பகுப்பாய்வு",
+  "analyticsLoadError": "பகுப்பாய்வை ஏற்ற முடியவில்லை",
+  "monthlyOverview": "மாதாந்திர கண்ணோட்டம்",
+  "noExpensesThisMonth": "இந்த மாதம் செலவுகள் இல்லை",
+  "startTrackingExpenses": "உங்கள் செலவுப் பழக்கங்களை அறிய கண்காணிப்பைத் தொடங்குங்கள்!",
+  "expensesByCategory": "வகை வாரியான செலவுகள்",
+  "categoryBreakdown": "வகை வாரியான விவரம்",
+  "addExpenseTitle": "செலவைச் சேர்",
+  "spendQuestion": "எவ்வளவு செலவு செய்தீர்கள்?",
+  "categoryLabel": "வகை",
+  "categoryTravel": "பயணம்",
+  "categoryFood": "உணவு",
+  "categoryUtilities": "பயன்பாட்டுக் கட்டணங்கள்",
+  "categoryShopping": "கடையில் வாங்குதல்",
+  "descriptionLabel": "விளக்கம்",
+  "expenseDescriptionHint": "இந்தச் செலவு எதற்காக?",
+  "shortDescriptionRequired": "சுருக்கமான விளக்கத்தைச் சேர்க்கவும்.",
+  "scanReceipt": "ரசீதை ஸ்கேன் செய்",
+  "takePhoto": "புகைப்படம் எடு (கேமரா)",
+  "chooseGallery": "படத்தொகுப்பிலிருந்து தேர்வு செய்",
+  "chooseDocument": "ஆவணத்தைத் தேர்வு செய்",
+  "receiptPreview": "ரசீது முன்னோட்டம்",
+  "removeReceipt": "ரசீதை அகற்று",
+  "analyzeReceipt": "ரசீதை பகுப்பாய்வு செய்",
+  "receiptSuggestionsNotice": "AI பரிந்துரைகள் சரிபார்க்கப்படாதவை. சேமிப்பதற்கு முன் செலவு விவரங்களைச் சரிபார்த்து திருத்தவும்.",
+  "receiptAnalysisFailed": "இந்த ரசீதை பகுப்பாய்வு செய்ய முடியவில்லை. இணைய இணைப்பைச் சரிபார்த்து மீண்டும் முயற்சிக்கவும்.",
+  "receiptReadError": "தேர்ந்தெடுத்த ரசீதைப் படிக்க முடியவில்லை. வேறு கோப்பைத் தேர்ந்தெடுத்து மீண்டும் முயற்சிக்கவும்.",
+  "receiptEmptyFile": "தேர்ந்தெடுத்த ரசீது கோப்பு காலியாக உள்ளது.",
+  "receiptFileTooLarge": "ரசீது கோப்பு 10 MB வரம்பை மீறுகிறது.",
+  "receiptUnsupportedFormat": "JPEG, PNG அல்லது WebP ரசீது படத்தை அல்லது PDF ஆவணத்தைத் தேர்வு செய்யவும்.",
+  "receiptInvalidFile": "தேர்ந்தெடுத்த ரசீது கோப்பு செல்லாதது அல்லது சேதமடைந்தது.",
+  "receiptPdfUnsupported": "தற்போதைய ரசீது பகுப்பாய்வு சேவை படங்களை மட்டுமே ஏற்கிறது; PDF பகுப்பாய்வு இயக்கப்படவில்லை.",
+  "cameraPermissionRequired": "கேமரா அனுமதி தேவை",
+  "cameraPermissionDenied": "கேமரா அணுகல் மறுக்கப்பட்டது. ரசீது படம் எடுக்க கேமரா அணுகலை அனுமதிக்கவும்.",
+  "cameraPermissionPermanent": "கேமரா அணுகல் தடுக்கப்பட்டுள்ளது. ரசீது படம் எடுக்க கணினி அமைப்புகளில் அனுமதிக்கவும்.",
+  "openAppSettings": "அமைப்புகளைத் திற",
+  "receiptSubtotal": "கூட்டுத்தொகை",
+  "receiptTax": "வரி/GST",
+  "receiptDiscount": "தள்ளுபடி",
+  "receiptCurrency": "நாணயம்",
+  "receiptPaymentMethod": "கட்டண முறை",
+  "receiptInvoiceNumber": "ரசீது எண்",
+  "receiptAnalyzed": "ரசீது பகுப்பாய்வு செய்யப்பட்டது. விவரங்கள் தானாக நிரப்பப்பட்டன!",
+  "receiptExpenseDefault": "ரசீது செலவு",
+  "invalidReceiptAmount": "ரசீது பகுப்பாய்வில் சரியான தொகை கிடைக்கவில்லை.",
+  "saveExpense": "செலவைச் சேமி",
+  "analyzingReceipt": "ரசீது பகுப்பாய்வு செய்யப்படுகிறது…",
+  "expenseSaved": "செலவு வெற்றிகரமாகச் சேமிக்கப்பட்டது.",
+  "operationFailed": "கோரிக்கையை நிறைவேற்ற முடியவில்லை. மீண்டும் முயற்சிக்கவும்.",
+  "operationFailedWithDetails": "கோரிக்கையை நிறைவேற்ற முடியவில்லை: {details}",
+  "emiTrackerTitle": "EMI கண்காணிப்பு",
+  "addEmi": "EMI சேர்",
+  "emiLoadError": "EMI விவரங்களை ஏற்ற முடியவில்லை",
+  "noActiveEmis": "செயலில் உள்ள EMI-கள் இல்லை",
+  "addEmiDescription": "மாதாந்திர கடன் தவணைகளைக் கண்காணிக்க + EMI சேர் என்பதைத் தட்டவும்.",
+  "active": "செயலில்",
+  "inactive": "செயலற்றது",
+  "emiAdded": "EMI வெற்றிகரமாகச் சேர்க்கப்பட்டது!",
+  "addNewEmi": "புதிய EMI-ஐச் சேர்",
+  "emiTitle": "EMI பெயர்",
+  "emiTitleHint": "எ.கா., மோட்டார் சைக்கிள் கடன்",
+  "emiTitleRequired": "EMI பெயரை உள்ளிடவும்.",
+  "monthlyAmount": "மாதாந்திரத் தொகை (₹)",
+  "dueDateDay": "மாதத்தின் தவணை நாள்",
+  "dayOfMonth": "ஒவ்வொரு மாதமும் {day}-ஆம் தேதி",
+  "@dayOfMonth": {
+    "placeholders": {
+      "day": {
+        "type": "int"
+      }
+    }
+  },
+  "saveEmi": "EMI-ஐச் சேமி",
+  "positiveAmountRequired": "சரியான நேர்மறைத் தொகையை உள்ளிடவும்.",
+  "dueOnEveryMonth": "ஒவ்வொரு மாதமும் {day}-ஆம் தேதி செலுத்த வேண்டும்",
+  "@dueOnEveryMonth": {
+    "placeholders": {
+      "day": {
+        "type": "String"
+      }
+    }
+  },
+  "emiDuration": "கால அளவு",
+  "emiDurationMonths": "{months} மாதங்கள்",
+  "@emiDurationMonths": {
+    "placeholders": {
+      "months": {
+        "type": "int"
+      }
+    }
+  },
+  "emiDurationYears": "{months} மாதங்கள் ({years} ஆண்டுகள்)",
+  "@emiDurationYears": {
+    "placeholders": {
+      "months": {
+        "type": "int"
+      },
+      "years": {
+        "type": "String"
+      }
+    }
+  },
+  "emiCustomDuration": "தனிப்பயன் கால அளவு",
+  "emiCustomDurationMonths": "மாதங்களில் கால அளவு",
+  "emiDurationRequired": "நேர்மறையான முழு மாத எண்ணை உள்ளிடவும்.",
+  "emiStartDate": "தொடக்க தேதி: {date}",
+  "@emiStartDate": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "emiEndDate": "முடிவு தேதி: {date}",
+  "@emiEndDate": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "emiTotalInstallments": "மொத்தம் {total} தவணைகள்",
+  "@emiTotalInstallments": {
+    "placeholders": {
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "emiInstallmentProgress": "{total} தவணைகளில் {paid} செலுத்தப்பட்டன · {remaining} மீதம்",
+  "@emiInstallmentProgress": {
+    "placeholders": {
+      "paid": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      },
+      "remaining": {
+        "type": "int"
+      }
+    }
+  },
+  "emiCompleted": "முடிந்தது",
+  "deactivateEmiTitle": "EMI-ஐ செயலிழக்கச் செய்யவா?",
+  "deactivateEmiConfirmation": "{title} EMI-ஐ செயலிழக்கச் செய்யவா? இது பட்டியலில் இருக்கும்; பின்னர் மீண்டும் செயல்படுத்தலாம்.",
+  "@deactivateEmiConfirmation": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      }
+    }
+  },
+  "deactivateEmi": "செயலிழக்கச் செய்",
+  "emiStatusUpdated": "EMI நிலை புதுப்பிக்கப்பட்டது.",
+  "emiStatusUpdateFailed": "EMI நிலையை மாற்ற முடியவில்லை. மீண்டும் முயற்சிக்கவும்.",
+  "profileSettings": "சுயவிவரம் மற்றும் அமைப்புகள்",
+  "profileLoadError": "சுயவிவரத்தை ஏற்றுவதில் பிழை",
+  "personalFinanceSettings": "தனிப்பட்ட நிதி மற்றும் அமைப்புகள்",
+  "financialPreferences": "நிதி விருப்பங்கள்",
+  "validSalaryRequired": "சரியான சம்பளத் தொகையை உள்ளிடவும்.",
+  "alertThreshold": "எச்சரிக்கை வரம்பு",
+  "thresholdDescription": "மாதச் செலவு சம்பளத்தின் இந்த சதவீதத்தை எட்டும்போது அறிவிக்கவும்.",
+  "manageEmi": "மாதாந்திரக் கடன் தவணைகளை நிர்வகிக்கவும்",
+  "darkMode": "இருண்ட பயன்முறை",
+  "darkThemeEnabled": "இருண்ட தோற்றம் இயக்கப்பட்டுள்ளது",
+  "lightThemeEnabled": "ஒளி தோற்றம் இயக்கப்பட்டுள்ளது",
+  "appLanguage": "செயலி மொழி",
+  "languageEnglish": "English (ஆங்கிலம்)",
+  "languageTamil": "தமிழ்",
+  "languageTelugu": "తెలుగు (தெலுங்கு)",
+  "languageMalayalam": "മലയാളം (மலையாளம்)",
+  "languageKannada": "ಕನ್ನಡ (கன்னடம்)",
+  "languageHindi": "हिन्दी (இந்தி)",
+  "savePreferences": "விருப்பங்களைச் சேமி",
+  "preferencesSaved": "விருப்பங்கள் வெற்றிகரமாகச் சேமிக்கப்பட்டன!",
+  "preferencesSaveError": "விருப்பங்களைச் சேமிக்க முடியவில்லை: {details}",
+  "signOut": "வெளியேறு",
+  "signOutError": "வெளியேற முடியவில்லை: {details}",
+  "userEmailFallback": "பயனர் மின்னஞ்சல்",
+  "salaryLabelRupees": "மாத அடிப்படைச் சம்பளம் (₹)"
 }

@@ -26,7 +26,7 @@ final class CategorySpendingProvider
     : super(
         from: null,
         argument: null,
-        retry: null,
+        retry: _disableAutomaticRetry,
         name: r'categorySpendingProvider',
         isAutoDispose: true,
         dependencies: null,
@@ -48,4 +48,4 @@ final class CategorySpendingProvider
   }
 }
 
-String _$categorySpendingHash() => r'5ea46c392d9e068e12f7fa3ac611d0c9d7e6745a';
+String _$categorySpendingHash() => r'13b286dfdda2ce55ffe048c91d58483306b8d9cf';

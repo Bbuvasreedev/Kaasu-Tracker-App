@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:kaasutracker/core/localization/generated/app_localizations.dart';
 import 'package:kaasutracker/core/routing/app_router.dart';
+import 'package:kaasutracker/features/auth/auth_validation.dart';
 import 'package:kaasutracker/features/auth/auth_provider.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -19,6 +21,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
 
   bool _isLoading = false;
   bool _passwordVisible = false;
+  bool _isSignUpMode = false;
 
   @override
   void dispose() {
@@ -28,14 +31,18 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   }
 
   Future<void> _authenticate({required bool isSignUp}) async {
-    if (!_formKey.currentState!.validate()) return;
+    if (_isLoading) return;
 
+    _isSignUpMode = isSignUp;
+    if (!_formKey.currentState!.validate()) return;
+    final l10n = AppLocalizations.of(context)!;
+
+    final email = _emailController.text.trim();
+    final password = _passwordController.text;
     setState(() => _isLoading = true);
 
     try {
       final auth = ref.read(authProvider);
-      final email = _emailController.text.trim();
-      final password = _passwordController.text;
 
       final AuthResponse response = isSignUp
           ? await auth.signUp(email, password)
@@ -44,21 +51,20 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
       if (!mounted) return;
 
       if (isSignUp && response.session == null) {
+        final duplicateAccount = response.user?.identities?.isEmpty ?? false;
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
+          SnackBar(
             content: Text(
-              'Account created! Please check your email to confirm your registration.',
+              duplicateAccount
+                  ? l10n.duplicateAccountPossible
+                  : l10n.emailConfirmation,
             ),
           ),
         );
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text(
-              isSignUp
-                  ? 'Account created successfully!'
-                  : 'Signed in successfully.',
-            ),
+            content: Text(isSignUp ? l10n.accountCreated : l10n.signedIn),
           ),
         );
         context.go(AppRoutes.dashboard);
@@ -67,15 +73,23 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text(e.message),
+          content: Text(
+            authenticationErrorMessage(e, isSignUp: isSignUp, l10n: l10n),
+          ),
           backgroundColor: Theme.of(context).colorScheme.error,
         ),
       );
-    } catch (e) {
+    } catch (_) {
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('An unexpected error occurred: $e'),
+          content: Text(
+            authenticationErrorMessage(
+              StateError('Authentication request failed'),
+              isSignUp: isSignUp,
+              l10n: l10n,
+            ),
+          ),
           backgroundColor: Theme.of(context).colorScheme.error,
         ),
       );
@@ -89,19 +103,20 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     // Listen to Auth state changes for automatic navigation upon auth state update
-    ref.listen<AsyncValue<AuthState>>(
-      authStateStreamProvider,
-      (previous, next) {
-        next.whenData((authState) {
-          if (authState.event == AuthChangeEvent.signedIn ||
-              (authState.session != null && mounted)) {
-            context.go(AppRoutes.dashboard);
-          }
-        });
-      },
-    );
+    ref.listen<AsyncValue<AuthState>>(authStateStreamProvider, (
+      previous,
+      next,
+    ) {
+      next.whenData((authState) {
+        if (authState.event == AuthChangeEvent.signedIn ||
+            (authState.session != null && mounted)) {
+          context.go(AppRoutes.dashboard);
+        }
+      });
+    });
 
     final colorScheme = Theme.of(context).colorScheme;
+    final l10n = AppLocalizations.of(context)!;
 
     return Scaffold(
       body: SafeArea(
@@ -112,6 +127,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
               constraints: const BoxConstraints(maxWidth: 440),
               child: Form(
                 key: _formKey,
+                autovalidateMode: AutovalidateMode.onUserInteraction,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
@@ -122,14 +138,14 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                     ),
                     const SizedBox(height: 20),
                     Text(
-                      'Welcome back',
+                      l10n.welcomeBack,
                       textAlign: TextAlign.center,
                       style: Theme.of(context).textTheme.headlineMedium
                           ?.copyWith(fontWeight: FontWeight.bold),
                     ),
                     const SizedBox(height: 8),
                     Text(
-                      'Sign in or create an account to manage your finances.',
+                      l10n.signInPrompt,
                       textAlign: TextAlign.center,
                       style: Theme.of(context).textTheme.bodyLarge,
                     ),
@@ -139,18 +155,13 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                       keyboardType: TextInputType.emailAddress,
                       textInputAction: TextInputAction.next,
                       autofillHints: const [AutofillHints.email],
-                      decoration: const InputDecoration(
-                        labelText: 'Email',
+                      decoration: InputDecoration(
+                        labelText: l10n.emailLabel,
                         prefixIcon: Icon(Icons.email_outlined),
                         border: OutlineInputBorder(),
                       ),
                       validator: (value) {
-                        final email = value?.trim() ?? '';
-                        if (email.isEmpty) return 'Please enter your email.';
-                        if (!email.contains('@')) {
-                          return 'Please enter a valid email address.';
-                        }
-                        return null;
+                        return validateEmail(value, l10n);
                       },
                     ),
                     const SizedBox(height: 16),
@@ -161,13 +172,13 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                       autofillHints: const [AutofillHints.password],
                       onFieldSubmitted: (_) => _authenticate(isSignUp: false),
                       decoration: InputDecoration(
-                        labelText: 'Password',
+                        labelText: l10n.passwordLabel,
                         prefixIcon: const Icon(Icons.lock_outline),
                         border: const OutlineInputBorder(),
                         suffixIcon: IconButton(
                           tooltip: _passwordVisible
-                              ? 'Hide password'
-                              : 'Show password',
+                              ? l10n.hidePassword
+                              : l10n.showPassword,
                           onPressed: () => setState(
                             () => _passwordVisible = !_passwordVisible,
                           ),
@@ -179,13 +190,11 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                         ),
                       ),
                       validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Please enter your password.';
-                        }
-                        if (value.length < 6) {
-                          return 'Password must be at least 6 characters.';
-                        }
-                        return null;
+                        return validatePassword(
+                          value,
+                          isSignUp: _isSignUpMode,
+                          l10n: l10n,
+                        );
                       },
                     ),
                     const SizedBox(height: 24),
@@ -196,18 +205,21 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                       child: _isLoading
                           ? const SizedBox.square(
                               dimension: 20,
-                              child: CircularProgressIndicator(
-                                strokeWidth: 2,
-                              ),
+                              child: CircularProgressIndicator(strokeWidth: 2),
                             )
-                          : const Text('Log In'),
+                          : Text(l10n.logIn),
                     ),
                     const SizedBox(height: 12),
                     OutlinedButton(
                       onPressed: _isLoading
                           ? null
                           : () => _authenticate(isSignUp: true),
-                      child: const Text('Sign Up'),
+                      child: _isLoading && _isSignUpMode
+                          ? const SizedBox.square(
+                              dimension: 20,
+                              child: CircularProgressIndicator(strokeWidth: 2),
+                            )
+                          : Text(l10n.signUp),
                     ),
                   ],
                 ),

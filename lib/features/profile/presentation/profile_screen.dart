@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:kaasutracker/core/localization/generated/app_localizations.dart';
 import 'package:kaasutracker/core/network/api_service.dart';
 import 'package:kaasutracker/core/routing/app_router.dart';
 import 'package:kaasutracker/core/theme/theme_provider.dart';
@@ -22,7 +23,8 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
   double _thresholdPercentage = 80.0;
   String _languagePref = 'en';
   bool _isSaving = false;
-  bool _isInitialized = false;
+  String? _lastUserId;
+  UserModel? _lastProfile;
 
   @override
   void dispose() {
@@ -30,12 +32,14 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
     super.dispose();
   }
 
-  void _populateForm(UserModel profile) {
-    if (_isInitialized) return;
-    _salaryController.text = profile.baseSalary.toStringAsFixed(2);
-    _thresholdPercentage = profile.thresholdPercentage;
-    _languagePref = profile.languagePref;
-    _isInitialized = true;
+  void _populateForm(UserModel profile, String currentUserId) {
+    if (_lastUserId != currentUserId || _lastProfile != profile) {
+      _salaryController.text = profile.baseSalary.toStringAsFixed(2);
+      _thresholdPercentage = profile.thresholdPercentage;
+      _languagePref = profile.languagePref;
+      _lastUserId = currentUserId;
+      _lastProfile = profile;
+    }
   }
 
   Future<void> _savePreferences() async {
@@ -94,11 +98,45 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
     }
   }
 
+  Future<void> _selectLanguage(String languageCode) async {
+    setState(() => _languagePref = languageCode);
+
+    try {
+      await ref
+          .read(appLocaleProvider.notifier)
+          .setLocale(Locale(languageCode));
+    } catch (error) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            AppLocalizations.of(context)!
+                .preferencesSaveError(error.toString()),
+          ),
+          backgroundColor: Theme.of(context).colorScheme.error,
+        ),
+      );
+    }
+  }
+
+  String _languageName(AppLocalizations l10n, String code) => switch (code) {
+        'ta' => l10n.languageTamil,
+        'te' => l10n.languageTelugu,
+        'ml' => l10n.languageMalayalam,
+        'kn' => l10n.languageKannada,
+        'hi' => l10n.languageHindi,
+        _ => l10n.languageEnglish,
+      };
+
   @override
   Widget build(BuildContext context) {
     final colors = Theme.of(context).colorScheme;
+    final l10n = AppLocalizations.of(context)!;
+    final currentUser = ref.watch(authProvider).currentUser;
     final currentUserEmail =
-        ref.watch(authProvider).currentUser?.email ?? 'User Email';
+        currentUser?.email ?? l10n.userEmailFallback;
+    final currentUserId =
+        currentUser?.id ?? currentUser?.email ?? 'unauthenticated';
 
     final themeMode = ref.watch(themeModeProvider);
     final isDarkMode = themeMode == ThemeMode.dark;
@@ -107,11 +145,9 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
     final profileAsync = ref.watch(userProfileProvider);
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Profile & Settings'),
-        centerTitle: false,
-      ),
+      appBar: AppBar(title: Text(l10n.profileSettings), centerTitle: false),
       body: profileAsync.when(
+        skipLoadingOnReload: true,
         loading: () => const Center(child: CircularProgressIndicator()),
         error: (error, stack) => Center(
           child: Padding(
@@ -122,20 +158,20 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                 Icon(Icons.error_outline, size: 48, color: colors.error),
                 const SizedBox(height: 16),
                 Text(
-                  'Error loading profile',
+                  l10n.profileLoadError,
                   style: Theme.of(context).textTheme.titleMedium,
                 ),
                 const SizedBox(height: 16),
                 ElevatedButton(
                   onPressed: () => ref.invalidate(userProfileProvider),
-                  child: const Text('Retry'),
+                  child: Text(l10n.retry),
                 ),
               ],
             ),
           ),
         ),
         data: (profile) {
-          _populateForm(profile);
+          _populateForm(profile, currentUserId);
 
           return SingleChildScrollView(
             padding: const EdgeInsets.fromLTRB(24, 16, 24, 32),
@@ -224,9 +260,11 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text(
-                                'Alert Threshold',
-                                style: Theme.of(context).textTheme.bodyLarge,
+                              Expanded(
+                                child: Text(
+                                  l10n.alertThreshold,
+                                  style: Theme.of(context).textTheme.bodyLarge,
+                                ),
                               ),
                               Chip(
                                 label: Text(
@@ -243,7 +281,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                           ),
                           const SizedBox(height: 4),
                           Text(
-                            'Get notified when monthly spending reaches this % of salary.',
+                            l10n.thresholdDescription,
                             style: Theme.of(context)
                                 .textTheme
                                 .bodySmall
@@ -309,12 +347,14 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                                 : Icons.light_mode_outlined,
                             color: colors.primary,
                           ),
-                          title: const Text(
-                            'Dark Mode',
+                          title: Text(
+                            l10n.darkMode,
                             style: TextStyle(fontWeight: FontWeight.w600),
                           ),
                           subtitle: Text(
-                            isDarkMode ? 'Dark theme enabled' : 'Light theme enabled',
+                            isDarkMode
+                                ? l10n.darkThemeEnabled
+                                : l10n.lightThemeEnabled,
                           ),
                           trailing: Switch(
                             value: isDarkMode,
@@ -337,37 +377,68 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                             Icons.language_outlined,
                             color: colors.primary,
                           ),
-                          title: const Text(
-                            'App Language',
+                          title: Text(
+                            l10n.appLanguage,
                             style: TextStyle(fontWeight: FontWeight.w600),
                           ),
-                          subtitle: Text(
-                            currentLocale.languageCode == 'ta'
-                                ? 'Tamil (தமிழ்)'
-                                : 'English',
-                          ),
-                          trailing: DropdownButton<String>(
-                            value: currentLocale.languageCode,
-                            underline: const SizedBox.shrink(),
-                            icon: const Icon(Icons.arrow_drop_down),
-                            items: const [
-                              DropdownMenuItem(
-                                value: 'en',
-                                child: Text('English'),
-                              ),
-                              DropdownMenuItem(
-                                value: 'ta',
-                                child: Text('தமிழ் (Tamil)'),
-                              ),
-                            ],
-                            onChanged: (langCode) {
-                              if (langCode != null) {
-                                setState(() => _languagePref = langCode);
-                                ref
-                                    .read(appLocaleProvider.notifier)
-                                    .setLocale(Locale(langCode));
-                              }
-                            },
+                          subtitle: Text(_languageName(l10n, _languagePref)),
+                          trailing: SizedBox(
+                            width: 160,
+                            child: DropdownButton<String>(
+                              isExpanded: true,
+                              value: _languagePref,
+                              underline: const SizedBox.shrink(),
+                              icon: const Icon(Icons.arrow_drop_down),
+                              items: [
+                                DropdownMenuItem(
+                                  value: 'en',
+                                  child: Text(
+                                    l10n.languageEnglish,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                ),
+                                DropdownMenuItem(
+                                  value: 'ta',
+                                  child: Text(
+                                    l10n.languageTamil,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                ),
+                                DropdownMenuItem(
+                                  value: 'te',
+                                  child: Text(
+                                    l10n.languageTelugu,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                ),
+                                DropdownMenuItem(
+                                  value: 'ml',
+                                  child: Text(
+                                    l10n.languageMalayalam,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                ),
+                                DropdownMenuItem(
+                                  value: 'kn',
+                                  child: Text(
+                                    l10n.languageKannada,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                ),
+                                DropdownMenuItem(
+                                  value: 'hi',
+                                  child: Text(
+                                    l10n.languageHindi,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                ),
+                              ],
+                              onChanged: (langCode) {
+                                if (langCode != null) {
+                                  _selectLanguage(langCode);
+                                }
+                              },
+                            ),
                           ),
                         ),
                       ],
@@ -384,7 +455,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                             child: CircularProgressIndicator(strokeWidth: 2),
                           )
                         : const Icon(Icons.save_outlined),
-                    label: const Text('Save Preferences'),
+                    label: Text(l10n.savePreferences),
                     style: ElevatedButton.styleFrom(
                       padding: const EdgeInsets.symmetric(vertical: 16),
                     ),
@@ -395,7 +466,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                   OutlinedButton.icon(
                     onPressed: _signOut,
                     icon: const Icon(Icons.logout),
-                    label: const Text('Sign Out'),
+                    label: Text(l10n.signOut),
                     style: OutlinedButton.styleFrom(
                       foregroundColor: colors.error,
                       side: BorderSide(

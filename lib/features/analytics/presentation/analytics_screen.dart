@@ -2,8 +2,12 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
+import 'package:kaasutracker/core/localization/generated/app_localizations.dart';
+import 'package:kaasutracker/core/localization/expense_category_localization.dart';
 import 'package:kaasutracker/features/analytics/data/category_spending_provider.dart';
 import 'package:kaasutracker/features/expenses/data/expenses_provider.dart';
+import 'package:kaasutracker/features/finance/data/finance_error.dart';
+import 'package:kaasutracker/features/finance/data/finance_repository.dart';
 
 class AnalyticsScreen extends ConsumerWidget {
   const AnalyticsScreen({super.key});
@@ -11,21 +15,23 @@ class AnalyticsScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final colors = Theme.of(context).colorScheme;
-    final currencyFormat = NumberFormat.currency(symbol: '₹', decimalDigits: 2);
-    final monthFormat = DateFormat('MMMM yyyy');
-    final currentMonthStr = monthFormat.format(DateTime.now());
+    final l10n = AppLocalizations.of(context)!;
+    final locale = Localizations.localeOf(context).toString();
+    final currencyFormat = NumberFormat.currency(
+      locale: locale,
+      symbol: '₹',
+      decimalDigits: 2,
+    );
+    final monthFormat = DateFormat('MMMM yyyy', locale);
+    final period = ref.watch(selectedFinancePeriodProvider);
+    final selectedMonthStr = monthFormat.format(period.firstDay);
 
     final analyticsAsync = ref.watch(expensesByCategoryProvider);
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Analytics'),
-        centerTitle: false,
-      ),
+      appBar: AppBar(title: Text(l10n.analyticsTitle), centerTitle: false),
       body: analyticsAsync.when(
-        loading: () => const Center(
-          child: CircularProgressIndicator(),
-        ),
+        loading: () => const Center(child: CircularProgressIndicator()),
         error: (error, stack) => Center(
           child: Padding(
             padding: const EdgeInsets.all(24.0),
@@ -35,22 +41,21 @@ class AnalyticsScreen extends ConsumerWidget {
                 Icon(Icons.error_outline, size: 48, color: colors.error),
                 const SizedBox(height: 16),
                 Text(
-                  'Could not load analytics',
+                  l10n.analyticsLoadError,
                   style: Theme.of(context).textTheme.titleMedium,
                 ),
                 const SizedBox(height: 8),
                 Text(
-                  error.toString(),
+                  financeErrorMessage(context, error),
                   textAlign: TextAlign.center,
-                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                        color: colors.onSurfaceVariant,
-                      ),
+                  style: Theme.of(context).textTheme.bodyMedium
+                      ?.copyWith(color: colors.onSurfaceVariant),
                 ),
                 const SizedBox(height: 16),
                 ElevatedButton.icon(
                   onPressed: () => ref.invalidate(expensesProvider),
                   icon: const Icon(Icons.refresh),
-                  label: const Text('Retry'),
+                  label: Text(l10n.retry),
                 ),
               ],
             ),
@@ -79,20 +84,14 @@ class AnalyticsScreen extends ConsumerWidget {
                         child: Column(
                           children: [
                             Text(
-                              'Monthly Overview',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .titleMedium
-                                  ?.copyWith(
-                                    color: colors.onSurfaceVariant,
-                                  ),
+                              l10n.monthlyOverview,
+                              style: Theme.of(context).textTheme.titleMedium
+                                  ?.copyWith(color: colors.onSurfaceVariant),
                             ),
                             const SizedBox(height: 8),
                             Text(
                               currencyFormat.format(0),
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .displaySmall
+                              style: Theme.of(context).textTheme.displaySmall
                                   ?.copyWith(
                                     fontWeight: FontWeight.bold,
                                     color: colors.primary,
@@ -100,13 +99,9 @@ class AnalyticsScreen extends ConsumerWidget {
                             ),
                             const SizedBox(height: 8),
                             Text(
-                              currentMonthStr,
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyMedium
-                                  ?.copyWith(
-                                    color: colors.onSurfaceVariant,
-                                  ),
+                              selectedMonthStr,
+                              style: Theme.of(context).textTheme.bodyMedium
+                                  ?.copyWith(color: colors.onSurfaceVariant),
                             ),
                           ],
                         ),
@@ -120,18 +115,16 @@ class AnalyticsScreen extends ConsumerWidget {
                     ),
                     const SizedBox(height: 16),
                     Text(
-                      'No expenses this month',
-                      style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                            fontWeight: FontWeight.bold,
-                          ),
+                      l10n.noExpensesThisMonth,
+                      style: Theme.of(context).textTheme.titleMedium
+                          ?.copyWith(fontWeight: FontWeight.bold),
                     ),
                     const SizedBox(height: 8),
                     Text(
-                      'Start tracking to see your spending habits!',
+                      l10n.startTrackingExpenses,
                       textAlign: TextAlign.center,
-                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                            color: colors.onSurfaceVariant,
-                          ),
+                      style: Theme.of(context).textTheme.bodyMedium
+                          ?.copyWith(color: colors.onSurfaceVariant),
                     ),
                   ],
                 ),
@@ -156,20 +149,14 @@ class AnalyticsScreen extends ConsumerWidget {
                     child: Column(
                       children: [
                         Text(
-                          'Monthly Overview',
-                          style: Theme.of(context)
-                              .textTheme
-                              .titleMedium
-                              ?.copyWith(
-                                color: colors.onSurfaceVariant,
-                              ),
+                          l10n.monthlyOverview,
+                          style: Theme.of(context).textTheme.titleMedium
+                              ?.copyWith(color: colors.onSurfaceVariant),
                         ),
                         const SizedBox(height: 8),
                         Text(
                           currencyFormat.format(totalSpending),
-                          style: Theme.of(context)
-                              .textTheme
-                              .displaySmall
+                          style: Theme.of(context).textTheme.displaySmall
                               ?.copyWith(
                                 fontWeight: FontWeight.bold,
                                 color: colors.primary,
@@ -177,13 +164,9 @@ class AnalyticsScreen extends ConsumerWidget {
                         ),
                         const SizedBox(height: 8),
                         Text(
-                          currentMonthStr,
-                          style: Theme.of(context)
-                              .textTheme
-                              .bodyMedium
-                              ?.copyWith(
-                                color: colors.onSurfaceVariant,
-                              ),
+                          selectedMonthStr,
+                          style: Theme.of(context).textTheme.bodyMedium
+                              ?.copyWith(color: colors.onSurfaceVariant),
                         ),
                       ],
                     ),
@@ -193,10 +176,9 @@ class AnalyticsScreen extends ConsumerWidget {
 
                 // Chart Section Title
                 Text(
-                  'Expenses by Category',
-                  style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                        fontWeight: FontWeight.bold,
-                      ),
+                  l10n.expensesByCategory,
+                  style: Theme.of(context).textTheme.titleLarge
+                      ?.copyWith(fontWeight: FontWeight.bold),
                 ),
                 const SizedBox(height: 16),
 
@@ -205,7 +187,9 @@ class AnalyticsScreen extends ConsumerWidget {
                   height: 260,
                   padding: const EdgeInsets.all(16),
                   decoration: BoxDecoration(
-                    color: colors.surfaceContainerHighest.withValues(alpha: 0.3),
+                    color: colors.surfaceContainerHighest.withValues(
+                      alpha: 0.3,
+                    ),
                     borderRadius: BorderRadius.circular(24),
                     border: Border.all(
                       color: colors.outlineVariant.withValues(alpha: 0.5),
@@ -238,10 +222,9 @@ class AnalyticsScreen extends ConsumerWidget {
 
                 // Category Summary Breakdown
                 Text(
-                  'Category Breakdown',
-                  style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                        fontWeight: FontWeight.bold,
-                      ),
+                  l10n.categoryBreakdown,
+                  style: Theme.of(context).textTheme.titleMedium
+                      ?.copyWith(fontWeight: FontWeight.bold),
                 ),
                 const SizedBox(height: 12),
 
@@ -276,23 +259,20 @@ class AnalyticsScreen extends ConsumerWidget {
                                 const SizedBox(width: 12),
                                 Expanded(
                                   child: Text(
-                                    item.category,
+                                    localizedExpenseCategory(
+                                      item.category,
+                                      l10n,
+                                    ),
                                     style: Theme.of(context)
                                         .textTheme
                                         .titleMedium
-                                        ?.copyWith(
-                                          fontWeight: FontWeight.w600,
-                                        ),
+                                        ?.copyWith(fontWeight: FontWeight.w600),
                                   ),
                                 ),
                                 Text(
                                   currencyFormat.format(item.totalAmount),
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .titleMedium
-                                      ?.copyWith(
-                                        fontWeight: FontWeight.bold,
-                                      ),
+                                  style: Theme.of(context).textTheme.titleMedium
+                                      ?.copyWith(fontWeight: FontWeight.bold),
                                 ),
                               ],
                             ),
@@ -304,10 +284,10 @@ class AnalyticsScreen extends ConsumerWidget {
                                     borderRadius: BorderRadius.circular(4),
                                     child: LinearProgressIndicator(
                                       value: item.percentage / 100.0,
-                                      backgroundColor: item.color
-                                          .withValues(alpha: 0.15),
-                                      valueColor:
-                                          AlwaysStoppedAnimation<Color>(
+                                      backgroundColor: item.color.withValues(
+                                        alpha: 0.15,
+                                      ),
+                                      valueColor: AlwaysStoppedAnimation<Color>(
                                         item.color,
                                       ),
                                       minHeight: 6,
@@ -320,9 +300,7 @@ class AnalyticsScreen extends ConsumerWidget {
                                   child: Text(
                                     '${item.percentage.toStringAsFixed(1)}%',
                                     textAlign: TextAlign.end,
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .bodySmall
+                                    style: Theme.of(context).textTheme.bodySmall
                                         ?.copyWith(
                                           fontWeight: FontWeight.w500,
                                           color: colors.onSurfaceVariant,

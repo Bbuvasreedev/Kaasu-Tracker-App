@@ -5,5 +5,351 @@
   "splashSubtitle": "Your money, made clear.",
   "continueToDashboard": "Continue",
   "dashboardTitle": "Your dashboard",
-  "dashboardPlaceholder": "Your finances at a glance."
+  "dashboardPlaceholder": "Your finances at a glance.",
+  "additionalFundsTitle": "Additional funds",
+  "borrowedFundsTitle": "Borrowed funds",
+  "fundsReceived": "Total received",
+  "fundsUsed": "Allocated to expenses",
+  "fundsRemaining": "Available balance",
+  "addFund": "Add funds",
+  "amountLabel": "Amount",
+  "dateLabel": "Date",
+  "sourceDescriptionLabel": "Source",
+  "purposeLabel": "Purpose",
+  "repaymentBalanceLabel": "Outstanding repayment balance",
+  "saveFund": "Save",
+  "updateFund": "Update",
+  "deactivateFund": "Deactivate",
+  "emptyFunds": "No funds recorded for this month.",
+  "fundSaved": "Funds saved successfully.",
+  "fundDeactivated": "Fund deactivated.",
+  "amountRequired": "Enter an amount greater than zero.",
+  "sourceRequired": "Enter a source description.",
+  "purposeRequired": "Enter a purpose.",
+  "fundsFormTitle": "Fund details",
+  "salarySpent": "Salary spent",
+  "salaryFundedExpenses": "Salary-funded expenses",
+  "remainingSalary": "Remaining current-month salary",
+  "additionalFundsUsed": "Additional funds used",
+  "additionalFundsAvailable": "Additional funds available",
+  "carryForwardUsed": "Carry-forward used",
+  "borrowedFundsUsed": "Borrowed funds used",
+  "actualExpenses": "Actual expenses",
+  "monthlyEmiScheduled": "Monthly EMI scheduled",
+  "nextEmiDue": "Next EMI due",
+  "emiSchedule": "EMI schedule",
+  "emiScheduled": "Scheduled",
+  "emiDueToday": "EMI due today",
+  "noScheduledEmis": "No active EMI schedules",
+  "emiPaymentNotTracked": "Payment status not tracked",
+  "unfundedOverspending": "Unfunded overspending",
+  "summaryUnavailable": "Monthly summary could not be loaded.",
+  "summaryLoading": "Loading monthly summary...",
+  "salarySetupRequired": "Monthly salary is not configured. Set it from the funds menu.",
+  "emptyMonth": "No financial activity for this month.",
+  "establishCarryForward": "Establish carry-forward",
+  "carryForwardEstablished": "Carry-forward balance established.",
+  "carryForwardAvailable": "Eligible previous-month balance",
+  "salaryAvailable": "Current-month salary balance",
+  "expenseDetailsTitle": "Expense details",
+  "expenseDetailsNotFound": "Expense not found.",
+  "expenseDetailsLoadError": "Could not load this expense.",
+  "deleteExpense": "Delete expense",
+  "confirmExpenseDeleteMessage": "Are you sure you want to delete this expense?",
+  "expenseDeleted": "Expense deleted.",
+  "expenseFundingBreakdown": "Funding allocation",
+  "unfundedAmount": "Unfunded amount",
+  "manageExpenseFunding": "Manage funding",
+  "allocationTitle": "Expense funding",
+  "expenseAmount": "Expense amount",
+  "fundingSource": "Funding source",
+  "sourceAvailable": "Available",
+  "assignedAmount": "Assigned",
+  "unallocatedAmount": "Remaining unallocated",
+  "saveAllocation": "Save changes",
+  "allocationSaved": "Expense funding updated.",
+  "allocationExceedsBalance": "An allocation exceeds the available balance.",
+  "allocationExceedsExpense": "Allocations must equal the expense amount.",
+  "duplicateFundingSource": "A funding source is listed more than once.",
+  "allocationVerificationFailed": "The server did not confirm the requested allocation. Your changes are still on this screen.",
+  "expenseUnavailable": "Expense is unavailable for funding.",
+  "noFundingSources": "No funding sources are available for this month.",
+  "allFunds": "All periods",
+  "cancel": "Cancel",
+  "retry": "Retry",
+  "serverSessionExpired": "Your session has expired. Please sign in again.",
+  "serverForbidden": "You do not have permission to perform this action.",
+  "serverNotFound": "The requested record could not be found.",
+  "serverFailure": "The service is temporarily unavailable. Please try again.",
+  "serverRequestFailure": "The request could not be completed. Please try again.",
+  "fundsTitle": "Fund sources",
+  "today": "Today",
+  "baseMonthlySalary": "Monthly base salary",
+  "combinedRemaining": "Total remaining funds",
+  "noNextEmi": "No next EMI scheduled",
+  "setMonthlySalary": "Set monthly salary",
+  "salarySaved": "Monthly salary saved.",
+  "inactiveFundStatus": "Inactive",
+  "invalidExpenseId": "Invalid expense identifier.",
+  "carryForwardRemaining": "Remaining carry-forward balance",
+  "salaryAllocated": "Allocated from current-month salary",
+  "combinedBalanceDetail": "Across all funding sources",
+  "percentUsed": "{percent}% used",
+  "@percentUsed": {
+    "placeholders": {
+      "percent": {
+        "type": "String"
+      }
+    }
+  },
+  "saving": "Saving…",
+  "navDashboard": "Dashboard",
+  "navAnalytics": "Analytics",
+  "navProfile": "Profile",
+  "welcomeBack": "Welcome back",
+  "signInPrompt": "Sign in or create an account to manage your finances.",
+  "emailLabel": "Email",
+  "passwordLabel": "Password",
+  "showPassword": "Show password",
+  "hidePassword": "Hide password",
+  "logIn": "Log In",
+  "signUp": "Sign Up",
+  "emailRequired": "Please enter your email.",
+  "emailInvalid": "Please enter a valid email address.",
+  "passwordRequired": "Please enter your password.",
+  "passwordMinLength": "Password must be at least 6 characters.",
+  "duplicateAccountPossible": "An account with this email may already exist. Try logging in.",
+  "emailConfirmation": "Registration submitted. Please check your email to confirm your account.",
+  "accountCreated": "Account created successfully!",
+  "signedIn": "Signed in successfully.",
+  "authNetworkError": "Could not reach the authentication service. Check your connection and try again.",
+  "tooManyAttempts": "Too many attempts. Please wait a while before trying again.",
+  "invalidCredentials": "The email or password is incorrect.",
+  "emailNotConfirmed": "Please confirm your email address before signing in.",
+  "accountAlreadyExists": "An account with this email already exists. Please log in.",
+  "weakPassword": "Choose a stronger password and try again.",
+  "accountCreationFailed": "Could not create your account. Please try again.",
+  "signInFailed": "Could not sign in. Please check your connection and try again.",
+  "pageNotFound": "Page not found: {path}",
+  "@pageNotFound": {
+    "placeholders": {
+      "path": {
+        "type": "String"
+      }
+    }
+  },
+  "addExpense": "Add expense",
+  "previousMonth": "Previous month",
+  "nextMonth": "Next month",
+  "recentExpenses": "Recent Expenses",
+  "add": "Add",
+  "collapseRecentExpenses": "Collapse recent expenses",
+  "expandRecentExpenses": "Expand recent expenses",
+  "collapseEmiSchedule": "Collapse EMI schedule",
+  "expandEmiSchedule": "Expand EMI schedule",
+  "recentExpensesLoadError": "Could not load recent expenses",
+  "noExpensesRecorded": "No expenses recorded yet",
+  "startExpenseTracking": "Tap + Add expense to start tracking.",
+  "analyticsTitle": "Analytics",
+  "analyticsLoadError": "Could not load analytics",
+  "monthlyOverview": "Monthly Overview",
+  "noExpensesThisMonth": "No expenses this month",
+  "startTrackingExpenses": "Start tracking to see your spending habits!",
+  "expensesByCategory": "Expenses by Category",
+  "categoryBreakdown": "Category Breakdown",
+  "addExpenseTitle": "Add expense",
+  "spendQuestion": "How much did you spend?",
+  "categoryLabel": "Category",
+  "categoryTravel": "Travel",
+  "categoryFood": "Food",
+  "categoryUtilities": "Utilities",
+  "categoryShopping": "Shopping",
+  "descriptionLabel": "Description",
+  "expenseDescriptionHint": "What was this expense for?",
+  "shortDescriptionRequired": "Add a short description.",
+  "scanReceipt": "Scan Receipt",
+  "takePhoto": "Take a Photo (Camera)",
+  "chooseGallery": "Choose from Gallery",
+  "chooseDocument": "Choose Document",
+  "receiptPreview": "Receipt preview",
+  "removeReceipt": "Remove receipt",
+  "analyzeReceipt": "Analyze receipt",
+  "receiptSuggestionsNotice": "AI suggestions are unverified. Review and edit the expense fields before saving.",
+  "receiptAnalysisFailed": "Could not analyze this receipt. Check your connection and try again.",
+  "receiptReadError": "Could not read the selected receipt. Choose another file and try again.",
+  "receiptEmptyFile": "The selected receipt file is empty.",
+  "receiptFileTooLarge": "The receipt file exceeds the 10 MB limit.",
+  "receiptUnsupportedFormat": "Choose a JPEG, PNG, or WebP receipt image, or a PDF document.",
+  "receiptInvalidFile": "The selected receipt file is invalid or damaged.",
+  "receiptPdfUnsupported": "The current receipt analysis service accepts images only; PDF analysis is not enabled.",
+  "cameraPermissionRequired": "Camera permission required",
+  "cameraPermissionDenied": "Camera access was denied. Allow camera access to take a receipt photo.",
+  "cameraPermissionPermanent": "Camera access is blocked. Enable it in system settings to take a receipt photo.",
+  "openAppSettings": "Open settings",
+  "receiptSubtotal": "Subtotal",
+  "receiptTax": "Tax/GST",
+  "receiptDiscount": "Discount",
+  "receiptCurrency": "Currency",
+  "receiptPaymentMethod": "Payment method",
+  "receiptInvoiceNumber": "Receipt number",
+  "receiptAnalyzed": "Receipt analyzed. Details automatically populated!",
+  "receiptExpenseDefault": "Receipt expense",
+  "invalidReceiptAmount": "The receipt analysis did not provide a valid amount.",
+  "saveExpense": "Save Expense",
+  "analyzingReceipt": "Analyzing receipt…",
+  "expenseSaved": "Expense saved successfully.",
+  "operationFailed": "Could not complete the request. Please try again.",
+  "operationFailedWithDetails": "Could not complete the request: {details}",
+  "@operationFailedWithDetails": {
+    "placeholders": {
+      "details": {
+        "type": "String"
+      }
+    }
+  },
+  "emiTrackerTitle": "EMI Tracker",
+  "addEmi": "Add EMI",
+  "emiLoadError": "Could not load EMIs",
+  "noActiveEmis": "No active EMIs",
+  "addEmiDescription": "Tap + Add EMI to track your monthly loan installments.",
+  "active": "Active",
+  "inactive": "Inactive",
+  "emiAdded": "EMI added successfully!",
+  "addNewEmi": "Add New EMI",
+  "emiTitle": "EMI Title",
+  "emiTitleHint": "e.g., Motorcycle Loan",
+  "emiTitleRequired": "Please enter a title for the EMI.",
+  "monthlyAmount": "Monthly Amount (₹)",
+  "dueDateDay": "Due Date Day of Month",
+  "dayOfMonth": "Day {day} of every month",
+  "@dayOfMonth": {
+    "placeholders": {
+      "day": {
+        "type": "int"
+      }
+    }
+  },
+  "saveEmi": "Save EMI",
+  "positiveAmountRequired": "Please enter a valid positive amount.",
+  "dueOnEveryMonth": "Due on the {day} of every month",
+  "@dueOnEveryMonth": {
+    "placeholders": {
+      "day": {
+        "type": "String"
+      }
+    }
+  },
+  "emiDuration": "Duration",
+  "emiDurationMonths": "{months} months",
+  "@emiDurationMonths": {
+    "placeholders": {
+      "months": {
+        "type": "int"
+      }
+    }
+  },
+  "emiDurationYears": "{months} months ({years} years)",
+  "@emiDurationYears": {
+    "placeholders": {
+      "months": {
+        "type": "int"
+      },
+      "years": {
+        "type": "String"
+      }
+    }
+  },
+  "emiCustomDuration": "Custom duration",
+  "emiCustomDurationMonths": "Duration in months",
+  "emiDurationRequired": "Enter a positive whole number of months.",
+  "emiStartDate": "Start date: {date}",
+  "@emiStartDate": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "emiEndDate": "End date: {date}",
+  "@emiEndDate": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "emiTotalInstallments": "{total} total installments",
+  "@emiTotalInstallments": {
+    "placeholders": {
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "emiInstallmentProgress": "{paid} of {total} installments paid · {remaining} remaining",
+  "@emiInstallmentProgress": {
+    "placeholders": {
+      "paid": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      },
+      "remaining": {
+        "type": "int"
+      }
+    }
+  },
+  "emiCompleted": "Completed",
+  "deactivateEmiTitle": "Deactivate EMI?",
+  "deactivateEmiConfirmation": "Deactivate {title}? It will remain visible and can be reactivated.",
+  "@deactivateEmiConfirmation": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      }
+    }
+  },
+  "deactivateEmi": "Deactivate",
+  "emiStatusUpdated": "EMI status updated.",
+  "emiStatusUpdateFailed": "Could not update EMI status. Please try again.",
+  "profileSettings": "Profile & Settings",
+  "profileLoadError": "Error loading profile",
+  "personalFinanceSettings": "Personal Finance & Settings",
+  "financialPreferences": "Financial Preferences",
+  "validSalaryRequired": "Please enter a valid salary amount.",
+  "alertThreshold": "Alert Threshold",
+  "thresholdDescription": "Get notified when monthly spending reaches this % of salary.",
+  "manageEmi": "Manage monthly loan installments",
+  "darkMode": "Dark Mode",
+  "darkThemeEnabled": "Dark theme enabled",
+  "lightThemeEnabled": "Light theme enabled",
+  "appLanguage": "App Language",
+  "languageEnglish": "English",
+  "languageTamil": "தமிழ் (Tamil)",
+  "languageTelugu": "తెలుగు (Telugu)",
+  "languageMalayalam": "മലയാളം (Malayalam)",
+  "languageKannada": "ಕನ್ನಡ (Kannada)",
+  "languageHindi": "हिन्दी (Hindi)",
+  "savePreferences": "Save Preferences",
+  "preferencesSaved": "Preferences saved successfully!",
+  "preferencesSaveError": "Could not save preferences: {details}",
+  "@preferencesSaveError": {
+    "placeholders": {
+      "details": {
+        "type": "String"
+      }
+    }
+  },
+  "signOut": "Sign Out",
+  "signOutError": "Could not sign out: {details}",
+  "@signOutError": {
+    "placeholders": {
+      "details": {
+        "type": "String"
+      }
+    }
+  },
+  "userEmailFallback": "User Email",
+  "salaryLabelRupees": "Base Monthly Salary (₹)"
 }

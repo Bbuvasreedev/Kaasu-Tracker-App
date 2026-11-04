@@ -21,27 +21,29 @@ Future<void> main() async {
     );
   }
 
-  await Supabase.initialize(
-    url: supabaseUrl,
-    publishableKey: supabaseAnonKey,
-  );
+  final initialLocale = await loadSavedAppLocale();
+
+  await Supabase.initialize(url: supabaseUrl, publishableKey: supabaseAnonKey);
 
   runApp(
-    const ProviderScope(
-      child: KaasuTrackerApp(),
+    ProviderScope(
+      overrides: [
+        appLocaleProvider.overrideWith(
+          () => AppLocaleNotifier(initialLocale: initialLocale),
+        ),
+      ],
+      child: const KaasuTrackerApp(),
     ),
   );
 }
 
 class KaasuTrackerApp extends ConsumerWidget {
-  const KaasuTrackerApp({super.key, this.locale});
-
-  final Locale? locale;
+  const KaasuTrackerApp({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final themeMode = ref.watch(themeModeProvider);
-    final currentLocale = locale ?? ref.watch(appLocaleProvider);
+    final currentLocale = ref.watch(appLocaleProvider);
 
     return MaterialApp.router(
       locale: currentLocale,

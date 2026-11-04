@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:kaasutracker/core/localization/generated/app_localizations.dart';
 import 'package:kaasutracker/core/routing/app_router.dart';
 
 class MainLayout extends StatelessWidget {
@@ -10,6 +11,7 @@ class MainLayout extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final location = GoRouterState.of(context).matchedLocation;
+    final l10n = AppLocalizations.of(context)!;
     final selectedIndex = switch (location) {
       AppRoutes.analytics => 1,
       AppRoutes.profile => 2,
@@ -28,21 +30,21 @@ class MainLayout extends StatelessWidget {
           };
           if (route != location) context.go(route);
         },
-        items: const [
+        items: [
           BottomNavigationBarItem(
             icon: Icon(Icons.home_outlined),
             activeIcon: Icon(Icons.home_rounded),
-            label: 'Dashboard',
+            label: l10n.navDashboard,
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.bar_chart_outlined),
             activeIcon: Icon(Icons.bar_chart_rounded),
-            label: 'Analytics',
+            label: l10n.navAnalytics,
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.person_outline),
             activeIcon: Icon(Icons.person),
-            label: 'Profile',
+            label: l10n.navProfile,
           ),
         ],
       ),

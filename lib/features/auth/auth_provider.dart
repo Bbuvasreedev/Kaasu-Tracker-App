@@ -1,9 +1,10 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:kaasutracker/core/network/supabase_client_provider.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 /// Provider for Supabase Auth client (`GoTrueClient`)
 final supabaseAuthProvider = Provider<GoTrueClient>((ref) {
-  return Supabase.instance.client.auth;
+  return ref.watch(supabaseClientProvider).auth;
 });
 
 /// Stream provider for auth state changes
@@ -24,18 +25,12 @@ class AuthNotifier {
 
   /// Signs up a user using email and password.
   Future<AuthResponse> signUp(String email, String password) async {
-    return await _auth.signUp(
-      email: email,
-      password: password,
-    );
+    return await _auth.signUp(email: email, password: password);
   }
 
   /// Signs in a user using email and password.
   Future<AuthResponse> signIn(String email, String password) async {
-    return await _auth.signInWithPassword(
-      email: email,
-      password: password,
-    );
+    return await _auth.signInWithPassword(email: email, password: password);
   }
 
   /// Signs out the current user session.

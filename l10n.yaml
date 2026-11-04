@@ -6,3 +6,7 @@ output-class: AppLocalizations
 preferred-supported-locales:
   - en
   - ta
+  - te
+  - ml
+  - kn
+  - hi

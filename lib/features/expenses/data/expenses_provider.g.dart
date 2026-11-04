@@ -24,7 +24,7 @@ final class ExpensesProvider
     : super(
         from: null,
         argument: null,
-        retry: null,
+        retry: _disableAutomaticRetry,
         name: r'expensesProvider',
         isAutoDispose: true,
         dependencies: null,
@@ -46,4 +46,4 @@ final class ExpensesProvider
   }
 }
 
-String _$expensesHash() => r'87f03d234583d1de855b169687daec450f1cbf05';
+String _$expensesHash() => r'8771be99ee25f28eb1d05af431a32e71bf76585a';

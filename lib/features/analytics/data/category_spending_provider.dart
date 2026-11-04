@@ -1,9 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:kaasutracker/features/expenses/data/expense.dart';
+import 'package:kaasutracker/features/expenses/data/expense_period.dart';
 import 'package:kaasutracker/features/expenses/data/expenses_provider.dart';
+import 'package:kaasutracker/features/finance/data/finance_models.dart';
+import 'package:kaasutracker/features/finance/data/finance_repository.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'category_spending_provider.g.dart';
+
+Duration? _disableAutomaticRetry(int retryCount, Object error) => null;
 
 class CategorySpending {
   const CategorySpending({
@@ -50,57 +56,72 @@ const _categoryColors = <Color>[
   Color(0xFFDB2777), // Pink
 ];
 
-@riverpod
+MonthlyCategoryAnalytics calculateMonthlyCategoryAnalytics(
+  List<Expense> expenses,
+  FinancePeriod period,
+) {
+  final totalsMinorUnits = <String, int>{};
+  final seenIds = <String>{};
+
+  for (final expense in expenses) {
+    if (!expenseIsInPeriod(expense, period) ||
+        !expense.amount.isFinite ||
+        (expense.id.isNotEmpty &&
+            expense.id != 'null' &&
+            !seenIds.add(expense.id))) {
+      continue;
+    }
+
+    final amount = expense.amountMinorUnits < 0
+        ? expense.amountMinorUnits
+        : expense.eligibleAmountMinorUnits;
+    totalsMinorUnits.update(
+      expense.category,
+      (current) => current + amount,
+      ifAbsent: () => amount,
+    );
+  }
+
+  final sortedEntries =
+      totalsMinorUnits.entries.where((entry) => entry.value > 0).toList()
+        ..sort((a, b) => b.value.compareTo(a.value));
+  final totalMinorUnits = sortedEntries.fold<int>(
+    0,
+    (total, entry) => total + entry.value,
+  );
+  final categories = <CategorySpending>[
+    for (var index = 0; index < sortedEntries.length; index++)
+      CategorySpending(
+        category: sortedEntries[index].key,
+        totalAmount: sortedEntries[index].value / 100,
+        percentage: totalMinorUnits == 0
+            ? 0
+            : sortedEntries[index].value / totalMinorUnits * 100,
+        color: _categoryColors[index % _categoryColors.length],
+      ),
+  ];
+
+  return MonthlyCategoryAnalytics(
+    totalMonthlySpending: totalMinorUnits / 100,
+    categorySpendingList: categories,
+  );
+}
+
+@Riverpod(retry: _disableAutomaticRetry)
 Future<List<CategorySpending>> categorySpending(Ref ref) async {
   final analytics = await ref.watch(expensesByCategoryProvider.future);
   return analytics.categorySpendingList;
 }
 
-final expensesByCategoryProvider =
-    FutureProvider<MonthlyCategoryAnalytics>((ref) async {
-  final expenses = await ref.watch(expensesProvider.future);
-  final now = DateTime.now();
-
-  // Filter expenses for current month
-  final currentMonthExpenses = expenses.where((expense) {
-    return expense.expenseDate.year == now.year &&
-        expense.expenseDate.month == now.month;
-  }).toList();
-
-  final totals = <String, double>{};
-  double totalSpending = 0.0;
-
-  for (final expense in currentMonthExpenses) {
-    totals.update(
-      expense.category,
-      (current) => current + expense.amount,
-      ifAbsent: () => expense.amount,
-    );
-    totalSpending += expense.amount;
+final expensesByCategoryProvider = FutureProvider<MonthlyCategoryAnalytics>((
+  ref,
+) async {
+  final period = ref.watch(selectedFinancePeriodProvider);
+  try {
+    final expenses = await ref.watch(expensesProvider.future);
+    return calculateMonthlyCategoryAnalytics(expenses, period);
+  } catch (error) {
+    debugPrint('Expense analytics load failed (${error.runtimeType}).');
+    rethrow;
   }
-
-  final sortedEntries = totals.entries.toList()
-    ..sort((a, b) => b.value.compareTo(a.value));
-
-  final categoryList = <CategorySpending>[];
-  for (var i = 0; i < sortedEntries.length; i++) {
-    final entry = sortedEntries[i];
-    final percentage =
-        totalSpending > 0 ? (entry.value / totalSpending) * 100.0 : 0.0;
-    final color = _categoryColors[i % _categoryColors.length];
-
-    categoryList.add(
-      CategorySpending(
-        category: entry.key,
-        totalAmount: entry.value,
-        percentage: percentage,
-        color: color,
-      ),
-    );
-  }
-
-  return MonthlyCategoryAnalytics(
-    totalMonthlySpending: totalSpending,
-    categorySpendingList: categoryList,
-  );
-});
+}, retry: _disableAutomaticRetry);

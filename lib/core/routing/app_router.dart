@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:kaasutracker/core/localization/generated/app_localizations.dart';
 import 'package:kaasutracker/core/network/supabase_client_provider.dart';
 import 'package:kaasutracker/features/analytics/presentation/analytics_screen.dart';
 import 'package:kaasutracker/features/auth/login_screen.dart';
@@ -8,6 +9,10 @@ import 'package:kaasutracker/features/dashboard/presentation/dashboard_page.dart
 import 'package:kaasutracker/features/dashboard/presentation/main_layout.dart';
 import 'package:kaasutracker/features/emis/presentation/emi_screen.dart';
 import 'package:kaasutracker/features/expenses/presentation/add_expense_screen.dart';
+import 'package:kaasutracker/features/expenses/presentation/expense_details_screen.dart';
+import 'package:kaasutracker/features/finance/data/finance_repository.dart';
+import 'package:kaasutracker/features/finance/presentation/expense_funding_screen.dart';
+import 'package:kaasutracker/features/finance/presentation/fund_management_screen.dart';
 import 'package:kaasutracker/features/profile/presentation/profile_screen.dart';
 import 'package:kaasutracker/features/splash/presentation/splash_page.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -21,7 +26,11 @@ abstract final class AppRoutes {
   static const analytics = '/analytics';
   static const profile = '/profile';
   static const addExpense = '/expenses/add';
+  static const additionalFunds = '/additional-funds';
+  static const borrowedFunds = '/borrowed-funds';
   static const emis = '/emis';
+  static String expenseDetails(int expenseId) => '/expenses/$expenseId/details';
+  static String expenseFunding(int expenseId) => '/expenses/$expenseId/funding';
 }
 
 @Riverpod(keepAlive: true)
@@ -80,6 +89,52 @@ GoRouter appRouter(Ref ref) {
             name: 'profile',
             builder: (context, state) => const ProfileScreen(),
           ),
+          GoRoute(
+            path: AppRoutes.additionalFunds,
+            name: 'additional-funds',
+            builder: (context, state) =>
+                const FundManagementScreen(type: FundType.additional),
+          ),
+          GoRoute(
+            path: AppRoutes.borrowedFunds,
+            name: 'borrowed-funds',
+            builder: (context, state) =>
+                const FundManagementScreen(type: FundType.borrowed),
+          ),
+          GoRoute(
+            path: '/expenses/:expenseId/details',
+            name: 'expense-details',
+            builder: (context, state) {
+              final expenseId = int.tryParse(
+                state.pathParameters['expenseId'] ?? '',
+              );
+              if (expenseId == null || expenseId <= 0) {
+                return Scaffold(
+                  body: Center(
+                    child: Text(AppLocalizations.of(context)!.invalidExpenseId),
+                  ),
+                );
+              }
+              return ExpenseDetailsScreen(expenseId: expenseId);
+            },
+          ),
+          GoRoute(
+            path: '/expenses/:expenseId/funding',
+            name: 'expense-funding',
+            builder: (context, state) {
+              final expenseId = int.tryParse(
+                state.pathParameters['expenseId'] ?? '',
+              );
+              if (expenseId == null || expenseId <= 0) {
+                return Scaffold(
+                  body: Center(
+                    child: Text(AppLocalizations.of(context)!.invalidExpenseId),
+                  ),
+                );
+              }
+              return ExpenseFundingScreen(expenseId: expenseId);
+            },
+          ),
         ],
       ),
       GoRoute(
@@ -93,8 +148,13 @@ GoRouter appRouter(Ref ref) {
         builder: (context, state) => const EmiScreen(),
       ),
     ],
-    errorBuilder: (context, state) =>
-        Scaffold(body: Center(child: Text('Page not found: ${state.uri}'))),
+    errorBuilder: (context, state) => Scaffold(
+      body: Center(
+        child: Text(
+          AppLocalizations.of(context)!.pageNotFound(state.uri.toString()),
+        ),
+      ),
+    ),
   );
 
   ref.onDispose(() {
